@@ -31,10 +31,10 @@ public class PushConsumer {
 
     public static void main(String[] args) throws InterruptedException, MQClientException {
 
-        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("CID_JODIE_1");
+        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("CZ-group");
 
 
-        consumer.subscribe("Jodie_topic_1023", "*");
+        consumer.subscribe("TopicTest1", "*");
 
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
 
@@ -46,9 +46,15 @@ public class PushConsumer {
             @Override
             public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs, ConsumeConcurrentlyContext context) {
                 System.out.println(Thread.currentThread().getName() + " Receive New Messages: " + msgs);
+
                 return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
             }
         });
+
+
+        consumer.setVipChannelEnabled(false);
+        consumer.setNamesrvAddr("192.168.1.5:9876");
+
 
 
         consumer.start();
